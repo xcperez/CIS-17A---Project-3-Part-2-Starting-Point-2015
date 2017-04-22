@@ -4,7 +4,7 @@ Folder::Folder(std::string name) : _name(name)
 {
 }
 
-Folder::Folder(){}
+Folder::Folder() {}
 
 Folder::~Folder()
 {
@@ -26,7 +26,7 @@ std::string Folder::ListContents()
 		output += "\\" + folder->getName() + "\n";
 	}
 	for (auto file : _files) {
-		output += file->getName() + "\n";		
+		output += file->getName() + "\n";
 	}
 	return output;
 }
@@ -43,11 +43,37 @@ void Folder::AddFolder(std::shared_ptr<Folder> newFolder)
 
 std::shared_ptr<Folder> Folder::FindFolder(std::string name)
 {
-	for(auto folder : _folders)
+	for (auto folder : _folders)
 	{
 		if (folder->getName() == name) {
 			return folder;
 		}
+	}
+	return nullptr;
+}
+
+std::shared_ptr<File> Folder::FindFile(std::string _name)
+{
+
+	for (auto file : _files)
+	{
+
+		if (file->getName() == _name)
+		{
+
+			return file;
+
+		}
+		else {
+
+			for (auto folder : _folders)
+			{
+
+				folder->FindFile(_name);
+
+			}
+		}
+
 	}
 	return nullptr;
 }
